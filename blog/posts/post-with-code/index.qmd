@@ -1,0 +1,164 @@
+---
+title: "Primer trabajo: Optimización heurística"
+author:
+  - name: "Catalina Restrepo Salgado"
+  - name: "Julián Castaño Pineda"
+  - name: "Tomás Rodríguez Taborda"
+  - name: "Luis Andrés Altamar Romero"
+date: "2024-11-15"
+categories: [optimización]
+image: "image.jpg"
+---
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+```
+
+# Primera parte: Optimización Numérica
+
+El objetivo de esta sección es evaluar diversos métodos de optimización aplicados a varias funciones, con el fin de medir su rendimiento. En particular, se utilizarán las funciones de Rosenbrock, Schwefel, Griewank, Goldstein-Price y la función de las seis jorobas de camello. Estas funciones serán optimizadas mediante el método del gradiente descendente y tres algoritmos heurísticos: Algoritmos Evolutivos, Optimización por Enjambre de Partículas y Evolución Diferencial.
+
+Al final, se comentará sobre los aportes de los métodos de descenso por gradiente y los métodos heurísticos, considerando el valor final de la función objetivo y el número de evaluaciones de la función objetivo, en un entorno de simulación con varios parámetros y condiciones para garantizar conclusiones significativas.
+
+## Funciones a optimizar
+
+
+```{python}
+
+def plot_function(f, x1_range, x2_range, title="Function Plot"):
+    x1 = np.linspace(x1_range[0], x1_range[1], 400)
+    x2 = np.linspace(x2_range[0], x2_range[1], 400)
+    X1, X2 = np.meshgrid(x1, x2)
+    Z = f(X1, X2)
+
+    fig = plt.figure(figsize=(14, 6))
+
+    # 3D plot
+    ax1 = fig.add_subplot(121, projection='3d')
+    ax1.plot_surface(X1, X2, Z, cmap='viridis')
+    ax1.set_title(f'3D Plot of {title}')
+    ax1.set_xlabel('X1')
+    ax1.set_ylabel('X2')
+    ax1.set_zlabel('Z')
+
+    # Contour plot
+    ax2 = fig.add_subplot(122)
+    contour = ax2.contour(X1, X2, Z, cmap='viridis')
+    ax2.set_title(f'Contour Plot of {title}')
+    ax2.set_xlabel('X1')
+    ax2.set_ylabel('X2')
+    fig.colorbar(contour, ax=ax2)
+
+    plt.show()
+
+# Ejemplo de uso con la función de Rosenbrock
+def rosenbrock(x1, x2):
+    return (1 - x1)**2 + 100 * (x2 - x1**2)**2
+
+plot_function(rosenbrock, x1_range=(-2, 2), x2_range=(-1, 3), title="Rosenbrock Function")
+```
+
+::: panel-tabset
+### Función de Rosenbrock
+ $$ f(x_1, x_2) = (a - x_1)^2 + b(x_2 - x_1^2)^2 $$
+
+
+### Función de Schwefel
+$$ f(x_1,x_2) = 418.9829n - \sum_{i=1}^{2} x_i \sin(\sqrt{|x_i|}) $$
+
+### Función de Griewank
+$$ f(x_1,x_2) = 1 + \frac{1}{4000} \sum_{i=1}^{2} x_i^2 - \prod_{i=1}^{2} \cos\left(\frac{x_i}{\sqrt{i}}\right) $$
+
+### Función Goldstein-Price
+
+$$
+\begin{align}
+f(x_1, x_2) = & \left[1 + (x_1 + x_2 + 1)^2 (19 - 14x_1 + 3x_1^2 - 14x_2 + 6x_1x_2 + 3x_2^2)\right] \\
+         & \left[30 + (2x_1 - 3x_2)^2 (18 - 32x_1 + 12x_1^2 + 48x_2 - 36x_1x_2 + 27x_2^2)\right]
+\end{align}
+$$
+
+### Función de las seis jorobas de camello
+ $$ f(x_1, x_2) = \left(4 - 2.1x_1^2 + \frac{x_1^4}{3}\right)x_1^2 + x_1x_2 + \left(-4 + 4x_2^2\right)x_2^2 $$
+
+:::
+
+## Proceso de optimización
+
+### Optimización por descenso del gradiente 
+
+::: panel-tabset
+#### Función de Rosenbrock
+ $$ f(x_1, x_2) = (a - x_1)^2 + b(x_2 - x_1^2)^2 $$
+
+#### Función de Schwefel
+$$ f(x_1,x_2) = 418.9829n - \sum_{i=1}^{2} x_i \sin(\sqrt{|x_i|}) $$
+
+#### Función de Griewank
+$$ f(x_1,x_2) = 1 + \frac{1}{4000} \sum_{i=1}^{2} x_i^2 - \prod_{i=1}^{2} \cos\left(\frac{x_i}{\sqrt{i}}\right) $$
+
+#### Función Goldstein-Price
+
+$$
+\begin{align}
+f(x_1, x_2) = & \left[1 + (x_1 + x_2 + 1)^2 (19 - 14x_1 + 3x_1^2 - 14x_2 + 6x_1x_2 + 3x_2^2)\right] \\
+         & \left[30 + (2x_1 - 3x_2)^2 (18 - 32x_1 + 12x_1^2 + 48x_2 - 36x_1x_2 + 27x_2^2)\right]
+\end{align}
+$$
+
+#### Función de las seis jorobas de camello
+ $$ f(x_1, x_2) = \left(4 - 2.1x_1^2 + \frac{x_1^4}{3}\right)x_1^2 + x_1x_2 + \left(-4 + 4x_2^2\right)x_2^2 $$
+ 
+:::
+
+
+### Tareas:
+1. **Escoja dos funciones de prueba.**
+2. **Optimización con método de descenso por gradiente:**
+   - Optimice las funciones seleccionadas en **dos y tres dimensiones** usando un **método de descenso por gradiente** con condición inicial aleatoria.
+3. **Optimización con métodos heurísticos:**
+   - Optimice las funciones seleccionadas en **dos y tres dimensiones** usando:
+     - Algoritmos evolutivos.
+     - Optimización de partículas.
+     - Evolución diferencial.
+4. **Representación visual:**
+   - Cree un **GIF animado** o un **video** que muestre el proceso de optimización usando:
+     - **Descenso por gradiente**.
+     - **Métodos heurísticos**.
+
+### Discusión:
+Reflexione sobre los siguientes puntos:
+- ¿Qué aportaron los métodos de **descenso por gradiente** y qué aportaron los **métodos heurísticos**?
+  - Para responder a esta pregunta, considere:
+    - El **valor final** de la función objetivo.
+    - El **número de evaluaciones** de la función objetivo.
+  - Es posible que se requiera realizar **varias corridas** de los algoritmos para obtener conclusiones significativas.
+
+
+# Parte 2: Optimización Combinatoria
+
+## Problema del Viajero:
+Un vendedor debe realizar un recorrido por **todas las capitales** de los **32 estados** de los **Estados Unidos Mexicanos**.
+
+### Tareas:
+1. **Optimización con métodos metaheurísticos:**
+   - Utilice **colonias de hormigas** para encontrar el orden óptimo del recorrido.
+   - Utilice **algoritmos genéticos** para encontrar el orden óptimo del recorrido.
+2. **Costo del recorrido:**
+   - El costo de desplazamiento entre ciudades se calcula como la suma de:
+     - El valor de la **hora del vendedor** (este es un parámetro que debe estudiarse).
+     - El **costo de los peajes**.
+     - El **costo del combustible**.
+   - Cada equipo debe definir el **vehículo** que utilizará el vendedor para realizar el recorrido y, con base en esta elección, **calcular el costo del combustible**.
+
+### Representación Visual:
+- Cree un **GIF animado** o un **video** que muestre cómo se comporta la **mejor solución** encontrada, usando un **gráfico del recorrido** en el mapa de México.
+
+---
+
+### Discusión:
+Reflexione sobre:
+- Los resultados obtenidos con las **colonias de hormigas** y los **algoritmos genéticos**.
+- Comparación de costos y tiempo de ejecución.

@@ -1,0 +1,58 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Portafolio trabajos",
+    "section": "",
+    "text": "Primer trabajo: Optimización heurística\n\n\n\n\n\n\noptimización\n\n\n\n\n\n\n\n\n\nNov 15, 2024\n\n\nCatalina Restrepo Salgado, Julián Castaño Pineda, Tomás Rodríguez Taborda, Luis Andrés Altamar Romero\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome To My Blog\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nNov 12, 2024\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/post-with-code/index.html",
+    "href": "posts/post-with-code/index.html",
+    "title": "Primer trabajo: Optimización heurística",
+    "section": "",
+    "text": "Code\nimport numpy as np"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this blog"
+  },
+  {
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Welcome To My Blog",
+    "section": "",
+    "text": "This is the first post in a Quarto blog. Welcome!\n\nSince this post doesn’t specify an explicit image, the first image in the post will be used in the listing page of posts."
+  },
+  {
+    "objectID": "posts/post-with-code/index.html#considere-las-siguientes-funciones-de-prueba",
+    "href": "posts/post-with-code/index.html#considere-las-siguientes-funciones-de-prueba",
+    "title": "Primer trabajo: Optimización heurística",
+    "section": "",
+    "text": "Función de Rosenbrock \\[ f(x, y) = (a - x)^2 + b(y - x^2)^2 \\]\nFunción de Rastrigin \\[ f(\\mathbf{x}) = An + \\sum_{i=1}^{n} \\left[ x_i^2 - A \\cos(2 \\pi x_i) \\right] \\]\nFunción de Schwefel \\[ f(\\mathbf{x}) = 418.9829n - \\sum_{i=1}^{n} x_i \\sin(\\sqrt{|x_i|}) \\]\nFunción de Griewank \\[ f(\\mathbf{x}) = 1 + \\frac{1}{4000} \\sum_{i=1}^{n} x_i^2 - \\prod_{i=1}^{n} \\cos\\left(\\frac{x_i}{\\sqrt{i}}\\right) \\]\nFunción Goldstein-Price \\[ f(x, y) = \\left[1 + (x + y + 1)^2 (19 - 14x + 3x^2 - 14y + 6xy + 3y^2)\\right] \\left[30 + (2x - 3y)^2 (18 - 32x + 12x^2 + 48y - 36xy + 27y^2)\\right] \\]\nFunción de las seis jorobas de camello \\[ f(x, y) = \\left(4 - 2.1x^2 + \\frac{x^4}{3}\\right)x^2 + xy + \\left(-4 + 4y^2\\right)y^2 \\]\n\n\n\n\nEscoja dos funciones de prueba.\nOptimización con método de descenso por gradiente:\n\nOptimice las funciones seleccionadas en dos y tres dimensiones usando un método de descenso por gradiente con condición inicial aleatoria.\n\nOptimización con métodos heurísticos:\n\nOptimice las funciones seleccionadas en dos y tres dimensiones usando:\n\nAlgoritmos evolutivos.\nOptimización de partículas.\nEvolución diferencial.\n\n\nRepresentación visual:\n\nCree un GIF animado o un video que muestre el proceso de optimización usando:\n\nDescenso por gradiente.\nMétodos heurísticos.\n\n\n\n\n\n\nReflexione sobre los siguientes puntos: - ¿Qué aportaron los métodos de descenso por gradiente y qué aportaron los métodos heurísticos? - Para responder a esta pregunta, considere: - El valor final de la función objetivo. - El número de evaluaciones de la función objetivo. - Es posible que se requiera realizar varias corridas de los algoritmos para obtener conclusiones significativas."
+  },
+  {
+    "objectID": "posts/post-with-code/index.html#problema-del-viajero",
+    "href": "posts/post-with-code/index.html#problema-del-viajero",
+    "title": "Primer trabajo: Optimización heurística",
+    "section": "Problema del Viajero:",
+    "text": "Problema del Viajero:\nUn vendedor debe realizar un recorrido por todas las capitales de los 32 estados de los Estados Unidos Mexicanos.\n\nTareas:\n\nOptimización con métodos metaheurísticos:\n\nUtilice colonias de hormigas para encontrar el orden óptimo del recorrido.\nUtilice algoritmos genéticos para encontrar el orden óptimo del recorrido.\n\nCosto del recorrido:\n\nEl costo de desplazamiento entre ciudades se calcula como la suma de:\n\nEl valor de la hora del vendedor (este es un parámetro que debe estudiarse).\nEl costo de los peajes.\nEl costo del combustible.\n\nCada equipo debe definir el vehículo que utilizará el vendedor para realizar el recorrido y, con base en esta elección, calcular el costo del combustible.\n\n\n\n\nRepresentación Visual:\n\nCree un GIF animado o un video que muestre cómo se comporta la mejor solución encontrada, usando un gráfico del recorrido en el mapa de México.\n\n\n\n\nDiscusión:\nReflexione sobre: - Los resultados obtenidos con las colonias de hormigas y los algoritmos genéticos. - Comparación de costos y tiempo de ejecución."
+  },
+  {
+    "objectID": "posts/post-with-code/index.html#funciones-a-optimizar",
+    "href": "posts/post-with-code/index.html#funciones-a-optimizar",
+    "title": "Primer trabajo: Optimización heurística",
+    "section": "Funciones a optimizar",
+    "text": "Funciones a optimizar\n\nFunción de RosenbrockFunción de SchwefelFunción de GriewankFunción Goldstein-PriceFunción de las seis jorobas de camello\n\n\n\\[ f(x_1, x_2) = (a - x_1)^2 + b(x_2 - x_1^2)^2 \\]\n\n\n\\[ f(x_1,x_2) = 418.9829n - \\sum_{i=1}^{2} x_i \\sin(\\sqrt{|x_i|}) \\]\n\n\n\\[ f(x_1,x_2) = 1 + \\frac{1}{4000} \\sum_{i=1}^{2} x_i^2 - \\prod_{i=1}^{2} \\cos\\left(\\frac{x_i}{\\sqrt{i}}\\right) \\]\n\n\n\\[\n\\begin{align}\nf(x_1, x_2) = & \\left[1 + (x + y + 1)^2 (19 - 14x + 3x^2 - 14y + 6xy + 3y^2)\\right] \\\\\n         & \\left[30 + (2x - 3y)^2 (18 - 32x + 12x^2 + 48y - 36xy + 27y^2)\\right]\n\\end{align}\n\\]\n\n\n\\[ f(x_1, x_2) = \\left(4 - 2.1x_1^2 + \\frac{x_1^4}{3}\\right)x_1^2 + x_1x_2 + \\left(-4 + 4x_2^2\\right)x_2^2 \\]"
+  },
+  {
+    "objectID": "posts/post-with-code/index.html#proceso-de-optimización",
+    "href": "posts/post-with-code/index.html#proceso-de-optimización",
+    "title": "Primer trabajo: Optimización heurística",
+    "section": "Proceso de optimización",
+    "text": "Proceso de optimización\n\nOptimización por descenso del gradiente\n\nFunción de RosenbrockFunción de SchwefelFunción de GriewankFunción Goldstein-PriceFunción de las seis jorobas de camello\n\n\n\\[ f(x, y) = (a - x)^2 + b(y - x^2)^2 \\]\n\n\nCode\n# Ejemplo de código Python\nimport numpy as np\n\ndef rosenbrock(x, y):\n    return (1 - x)**2 + 100 * (y - x**2)**2\n\nx = np.linspace(-2, 2, 400)\ny = np.linspace(-1, 3, 400)\nX, Y = np.meshgrid(x, y)\nZ = rosenbrock(X, Y)\n\nprint(\"Valor mínimo de la función de Rosenbrock:\", np.min(Z))\n\n\nValor mínimo de la función de Rosenbrock: 6.2853131372160005e-06\n\n\n\n\n\\[ f(\\mathbf{x}) = 418.9829n - \\sum_{i=1}^{n} x_i \\sin(\\sqrt{|x_i|}) \\]\n\n\n\\[ f(\\mathbf{x}) = 1 + \\frac{1}{4000} \\sum_{i=1}^{n} x_i^2 - \\prod_{i=1}^{n} \\cos\\left(\\frac{x_i}{\\sqrt{i}}\\right) \\]\n\n\n\\[\n\\begin{align}\nf(x, y) = & \\left[1 + (x + y + 1)^2 (19 - 14x + 3x^2 - 14y + 6xy + 3y^2)\\right] \\\\\n         & \\left[30 + (2x - 3y)^2 (18 - 32x + 12x^2 + 48y - 36xy + 27y^2)\\right]\n\\end{align}\n\\]\n\n\n\\[ f(x, y) = \\left(4 - 2.1x^2 + \\frac{x^4}{3}\\right)x^2 + xy + \\left(-4 + 4y^2\\right)y^2 \\]\n\n\n\n\n\nTareas:\n\nEscoja dos funciones de prueba.\nOptimización con método de descenso por gradiente:\n\nOptimice las funciones seleccionadas en dos y tres dimensiones usando un método de descenso por gradiente con condición inicial aleatoria.\n\nOptimización con métodos heurísticos:\n\nOptimice las funciones seleccionadas en dos y tres dimensiones usando:\n\nAlgoritmos evolutivos.\nOptimización de partículas.\nEvolución diferencial.\n\n\nRepresentación visual:\n\nCree un GIF animado o un video que muestre el proceso de optimización usando:\n\nDescenso por gradiente.\nMétodos heurísticos.\n\n\n\n\n\nDiscusión:\nReflexione sobre los siguientes puntos: - ¿Qué aportaron los métodos de descenso por gradiente y qué aportaron los métodos heurísticos? - Para responder a esta pregunta, considere: - El valor final de la función objetivo. - El número de evaluaciones de la función objetivo. - Es posible que se requiera realizar varias corridas de los algoritmos para obtener conclusiones significativas."
+  }
+]
