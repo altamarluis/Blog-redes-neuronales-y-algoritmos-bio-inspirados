@@ -8,12 +8,11 @@ author:
 date: "2024-11-15"
 categories: [optimización]
 image: "image.jpg"
+bibliography: ref.bib
 ---
 
 ```{python}
-import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+
 ```
 
 # Primera parte: Optimización Numérica
@@ -24,54 +23,37 @@ Al final, se comentará sobre los aportes de los métodos de descenso por gradie
 
 ## Funciones a optimizar
 
-
-```{python}
-
-def plot_function(f, x1_range, x2_range, title="Function Plot"):
-    x1 = np.linspace(x1_range[0], x1_range[1], 400)
-    x2 = np.linspace(x2_range[0], x2_range[1], 400)
-    X1, X2 = np.meshgrid(x1, x2)
-    Z = f(X1, X2)
-
-    fig = plt.figure(figsize=(14, 6))
-
-    # 3D plot
-    ax1 = fig.add_subplot(121, projection='3d')
-    ax1.plot_surface(X1, X2, Z, cmap='viridis')
-    ax1.set_title(f'3D Plot of {title}')
-    ax1.set_xlabel('X1')
-    ax1.set_ylabel('X2')
-    ax1.set_zlabel('Z')
-
-    # Contour plot
-    ax2 = fig.add_subplot(122)
-    contour = ax2.contour(X1, X2, Z, cmap='viridis')
-    ax2.set_title(f'Contour Plot of {title}')
-    ax2.set_xlabel('X1')
-    ax2.set_ylabel('X2')
-    fig.colorbar(contour, ax=ax2)
-
-    plt.show()
-
-# Ejemplo de uso con la función de Rosenbrock
-def rosenbrock(x1, x2):
-    return (1 - x1)**2 + 100 * (x2 - x1**2)**2
-
-plot_function(rosenbrock, x1_range=(-2, 2), x2_range=(-1, 3), title="Rosenbrock Function")
-```
-
 ::: panel-tabset
 ### Función de Rosenbrock
- $$ f(x_1, x_2) = (a - x_1)^2 + b(x_2 - x_1^2)^2 $$
+$$f(\mathbf{x}) = \sum_{i=1}^{d-1} \left[ 100(x_{i+1} - x_i^2)^2 + (x_i - 1)^2 \right]$$
 
+En 2 dimensiones se puede definir como
+$$ f(x_1, x_2) = (a - x_1)^2 + b(x_2 - x_1^2)^2 $$
+
+La Función de Rosenbrock, también conocida como función del valle o del plátano, es ampliamente utilizada para evaluar algoritmos de optimización basados en gradientes. Esta función es unimodal y presenta su mínimo global en un valle parabólico estrecho, lo que facilita su localización. Sin embargo, segun @simonfraser_rosenbrock citando a @picheny2012benchmark convergencia hacia este mínimo puede ser desafiante debido a la naturaleza del valle.
+
+La función se evalúa generalmente en el hipercubo $x_i \in [-5, 10]$
+y tiene un mínimo global en $f(1,...,1) = 0$ 
+
+### Función de Rastrigin
+ 
+ $$f(\mathbf{x}) = 10d + \sum_{i=1}^{d} \left[ x_i^2 - 10 \cos(2\pi x_i) \right]$$
+
+Segun @simonfraser_rosenbroc, la función de Rastrigin tiene varios mínimos locales. Es altamente multimodal, pero las ubicaciones de los mínimos se distribuyen regularmente. La función generalmente se evalúa en el hipercubo $x_i \in [-5.12, 5.12]$ y su mínimo local se encuentra en $f(0,...,0)=0$.
 
 ### Función de Schwefel
-$$ f(x_1,x_2) = 418.9829n - \sum_{i=1}^{2} x_i \sin(\sqrt{|x_i|}) $$
+
+$$ f(\mathbf{x}) = 418.9829d - \sum_{i=1}^{d} x_i \sin(\sqrt{|x_i|}) $$
+
+Segun @simonfraser_rosenbrock La función de Schwefel es compleja, con muchos mínimos locales. Normalmente se evalua en el hipercubo $x_i \in [-500,500] $. Su minimo global está en $f(420.9687,...,420.9687)=0$
 
 ### Función de Griewank
-$$ f(x_1,x_2) = 1 + \frac{1}{4000} \sum_{i=1}^{2} x_i^2 - \prod_{i=1}^{2} \cos\left(\frac{x_i}{\sqrt{i}}\right) $$
+$$ f(\mathbf{x}) = 1 + \frac{1}{4000} \sum_{i=1}^{d} x_i^2 - \prod_{i=1}^{d} \cos\left(\frac{x_i}{\sqrt{i}}\right) $$
+
+Segun @simonfraser_rosenbrock la función de Griewank tiene muchos mínimos locales generalizados, que se distribuyen de forma regular. Lo que hace compleja su optimización al minimo global. Normalmente se evalua en el hipercubo $x_i \in [-600,600] $. Su minimo global está en $f(0,...,0)=0$
 
 ### Función Goldstein-Price
+
 
 $$
 \begin{align}
@@ -80,8 +62,14 @@ f(x_1, x_2) = & \left[1 + (x_1 + x_2 + 1)^2 (19 - 14x_1 + 3x_1^2 - 14x_2 + 6x_1x
 \end{align}
 $$
 
+
+La función Goldstein-Price es una función en 2 dimensiones y tiene varios mínimos locales. Segun @molga2005test, la función generalmente se evalúa en el cuadrado $x_1 \in [-2, 2]$ y $x_1 \in [-2, 2]$ . Su mínimo global es $f(0,-1) = 3$
+
 ### Función de las seis jorobas de camello
+
  $$ f(x_1, x_2) = \left(4 - 2.1x_1^2 + \frac{x_1^4}{3}\right)x_1^2 + x_1x_2 + \left(-4 + 4x_2^2\right)x_2^2 $$
+
+La función de las seis jorobas de camello es una función en 2 dimensiones.Segun @molga2005test la función tiene seis mínimos locales, dos de los cuales son globales y recomienda evaluar la función en el rectángulo $x_1 \in [-3, 3], x_2 \in [-2, 2]$, donde los mínimos globales son $f(0.0898,-0.7126) = -1.0316$ y $f(-0.0898, 0.7126) = -1.0316$
 
 :::
 
