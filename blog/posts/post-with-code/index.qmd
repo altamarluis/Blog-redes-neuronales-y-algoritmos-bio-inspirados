@@ -433,10 +433,9 @@ Para problemas de **minimización**, menor $f(x)$ implica mejor fitness.
 
 Se genera una población inicial de $P$ individuos de forma aleatoria dentro de un intervalo $[a, b]$ :
 
-$$x_{ij} \sim \text{U}(a, b), \quad \forall i \in \{1, 2, \ldots, P\}, \; j \in \{1, 2, \ldots, n\}$$ 
-donde: 
+$$x_{ij} \sim \text{U}(a, b), \quad \forall i \in \{1, 2, \ldots, P\}, \; j \in \{1, 2, \ldots, n\}$$ donde:
 
-- $x_{ij}$ es la $j-ésima$ coordenada del $i-ésimo$ individuo.
+-   $x_{ij}$ es la $j-ésima$ coordenada del $i-ésimo$ individuo.
 
 ```{python}
 # Inicializar población
@@ -446,7 +445,7 @@ def initialize_population(size, dim, bounds):
 
 ------------------------------------------------------------------------
 
-**Evaluación del Fitness** 
+**Evaluación del Fitness**
 
 Cada individuo de la población es evaluado usando la función objetivo:
 
@@ -460,7 +459,7 @@ def evaluate_fitness(population,fitness_function):
 
 ------------------------------------------------------------------------
 
-**Selección** 
+**Selección**
 
 Se seleccionan individuos para reproducirse basándose en su fitness. Un métodos comune es el método de torneo, donde primero se seleccionan $k$ individuos al azar y luego se elige al mejor de ellos(mejor fitness):
 
@@ -479,11 +478,9 @@ def tournament_selection(population, fitness, k=3):
 
 ------------------------------------------------------------------------
 
-**Cruce (Recombinación)** 
+**Cruce (Recombinación)**
 
-Dos individuos (padres) se combinan para generar descendencia. Un método común es **punto de corte único**, donde: 
-1. Se Elegie un punto de cruce aleatorio $k$. 
-2. Se genera la descendencia mezclando las características de los padres.
+Dos individuos (padres) se combinan para generar descendencia. Un método común es **punto de corte único**, donde: 1. Se Elegie un punto de cruce aleatorio $k$. 2. Se genera la descendencia mezclando las características de los padres.
 
 $$\text{Hijo 1} = (\text{Padre}_1[:k], \text{Padre}_2[k:])$$
 
@@ -504,13 +501,13 @@ def crossover(parent1, parent2, crossover_rate):
 
 ------------------------------------------------------------------------
 
-**Mutación** 
+**Mutación**
 
 Se introduce una variación genética al modificar aleatoriamente uno o más genes(variables) en un individuo(punto del plano) con probabilidad $p_m$:
 
 $$x_{ij} = x_{ij} + \Delta, \quad \Delta \sim \text{U}(-\delta, \delta)$$
 
-donde: 
+donde:
 
 -   $\Delta$ es una perturbación aleatoria.
 -   $x_{ij}$ se restringe a los límites del problema.
@@ -527,7 +524,7 @@ def mutate(individual, bounds, mutation_rate, delta):
 
 ------------------------------------------------------------------------
 
-**Evaluación y Sustitución** 
+**Evaluación y Sustitución**
 
 La nueva población es evaluada, y mediante el uso de elitismo, es posible conservar a los mejores individuos. El algoritmo continúa iterando con esta población actualizada, mejorando progresivamente la optimización de la función objetivo al incrementar el fitness general de la población.
 
@@ -574,7 +571,6 @@ def genetic_algorithm(fitness_function, population_size, generations, mutation_r
 ------------------------------------------------------------------------
 
 ::: panel-tabset
-
 ### Función de Rosenbrock
 
 $$f(\mathbf{x}) = \sum_{i=1}^{d-1} \left[ 100(x_{i+1} - x_i^2)^2 + (x_i - 1)^2 \right]$$
@@ -617,11 +613,9 @@ $$ f(x_1, x_2) = \left(4 - 2.1x_1^2 + \frac{x_1^4}{3}\right)x_1^2 + x_1x_2 + \le
 ![](Camel_Six_Humps_population_animation.gif)
 :::
 
- 
-Los algoritmos genéticos convergen hacia soluciones aproximadas, aunque no garantizan alcanzar el óptimo global. Sin embargo, suelen mostrar una rápida convergencia en pocas generaciones. Estos algoritmos buscan equilibrar dos objetivos clave: **Exploración**, que consiste en descubrir nuevas regiones del espacio de búsqueda, y **Explotación**, enfocada en refinar y mejorar las soluciones existentes. 
+Los algoritmos genéticos convergen hacia soluciones aproximadas, aunque no garantizan alcanzar el óptimo global. Sin embargo, suelen mostrar una rápida convergencia en pocas generaciones. Estos algoritmos buscan equilibrar dos objetivos clave: **Exploración**, que consiste en descubrir nuevas regiones del espacio de búsqueda, y **Explotación**, enfocada en refinar y mejorar las soluciones existentes.
 
 Para las simulaciones presentadas en los GIF, se utilizaron los siguientes parámetros: tamaño de población = 30, número de generaciones = 20, tasa de mutación = 0.5, y tasa de cruce = 0.5. El parámetro de mutación $\delta$ se ajusta según los límites de evaluación de las funciones objetivo, representando aproximadamente un 5% del rango de dichas funciones.
-
 
 ### Observaciones
 
@@ -637,10 +631,104 @@ Desventajas:
 -   No garantiza convergencia al óptimo global.
 -   Requiere ajuste cuidadoso de parámetros.
 
-
 ## Optimización de partículas
-::: panel-tabset
 
+### Concepto Básico y Analogía
+
+La Optimización por Enjambre de Partículas (PSO) es una técnica metaheurística inspirada en el comportamiento social de los animales, como los pájaros o los peces. En PSO, cada solución potencial al problema se representa como una partícula que se mueve en un espacio de búsqueda multidimensional. Cada partícula ajusta su posición y velocidad en cada iteración, basándose en su propia mejor posición encontrada (pBest) y la mejor posición encontrada por todo el enjambre (gBest). [@kennedy1995particle]
+
+Los métodos PSO se atribuyen originalmente a los investigadores Kennedy, Eberhart​ y Shi. En un principio fueron concebidos para elaborar modelos de conductas sociales,​como el movimiento descrito por los organismos vivos en una bandada de aves o un banco de peces. Posteriormente el algoritmo se simplificó y se comprobó que era adecuado para problemas de optimización. [@kennedy1997particle]
+
+**Funcionamiento de PSOz**
+
+En el algoritmo PSO (Particle Swarm Optimization), cada partícula, que representa un individuo, posee una posición *p*⃗  ​ dentro del espacio de búsqueda y una velocidad *v*⃗ que determina su desplazamiento. Estas partículas, al igual que objetos en un entorno físico, cuentan con una inercia *w*, la cual conserva su movimiento en la dirección previamente seguida.
+
+``` python
+self.positions = np.random.uniform(
+    self.bounds[:, 0],
+    self.bounds[:, 1],
+    size=(n_particles, dimensions)
+)
+
+self.velocities = np.zeros((n_particles, dimensions))
+
+# Evaluar posiciones iniciales
+self.scores = np.array([self.objective_function(p) for p in self.positions])
+```
+
+```         
+```
+
+Además, su aceleración, que representa un cambio en la velocidad, está influenciada por dos factores principales:
+
+-   Atracción hacia su mejor posición personal: Cada partícula tiende a moverse hacia la mejor ubicación que ha identificado en su trayectoria histórica (*pbest).*
+
+-   Atracción hacia la mejor posición global: Las partículas también se dirigen hacia la mejor ubicación encontrada por el grupo completo en el espacio de búsqueda (*pgbest*).
+
+![](images/paste-1.png)
+
+[@sancho_pso_image]
+
+``` python
+for iteration in range(self.max_iter):
+    # Actualizar velocidades
+    r1, r2 = np.random.rand(2)
+    self.velocities = (self.w * self.velocities +
+                     self.c1 * r1 * (self.p_best - self.positions) +
+                     self.c2 * r2 * (self.g_best - self.positions))
+    
+    # Actualizar posiciones
+    self.positions += self.velocities
+    
+    # Mantener partículas dentro de los límites
+    self.positions = np.clip(
+        self.positions,
+        self.bounds[:, 0],
+        self.bounds[:, 1]
+    )
+    
+    # Evaluar nuevas posiciones
+    self.scores = np.array([self.objective_function(p) for p in self.positions])
+    
+    # Actualizar mejores posiciones personales
+    improved_mask = self.scores < self.p_best_scores
+    self.p_best[improved_mask] = self.positions[improved_mask]
+    self.p_best_scores[improved_mask] = self.scores[improved_mask]
+    
+    # Actualizar mejor posición global
+    min_score_idx = np.argmin(self.p_best_scores)
+    if self.p_best_scores[min_score_idx] < self.g_best_score:
+        self.g_best = self.p_best[min_score_idx].copy()
+        self.g_best_score = self.p_best_scores[min_score_idx]
+```
+
+El algoritmo se detiene cuando se alcanza un número máximo de iteraciones, o cuando la mejora en la función objetivo es menor a un umbral predefinido.
+
+Al implementar el algoritmo, se presentó un comportamiento oscilatorio donde las partículas convergían inicialmente pero luego se dispersaban de manera repentina. El análisis reveló cuatro posibles causas: velocidades excesivas de las partículas, coeficientes de aprendizaje mal ajustados, peso de inercia estático y ausencia de un mecanismo de estabilización.
+
+La solución implementada aborda estos problemas mediante cuatro modificaciones: Se  limitó la velocidad máxima al 10% del espacio de búsqueda para evitar saltos excesivos, se optimizaron los coeficientes cognitivo y social a un valor de 2.0 para balancear exploración y explotación, se implementó un peso de inercia dinámico que decrece linealmente de 0.9 a 0.4 durante la optimización y se añadió un factor de constricción calculado a partir de los coeficientes de aprendizaje para garantizar convergencia matemática.
+
+``` python
+# Control de Velocidad Máxima
+v_max = 0.1 * (bounds[:, 1] - bounds[:, 0])
+velocities = np.clip(velocities, -v_max, v_max)
+
+# Peso de Inercia Dinámico
+w = w_max - (w_max - w_min) * (iteracion / max_iter)
+
+# Factor de Constricción
+phi = c1 + c2
+chi = 2 / abs(2 - phi - np.sqrt(phi * phi - 4 * phi))
+
+# Parámetros Optimizados
+c1 = c2 = 2.0
+w_max = 0.9
+w_min = 0.4
+```
+
+Estas modificaciones resultaron en una mejora significativa en la estabilidad del algoritmo, con una transición más suave entre las fases de exploración y explotación, y una convergencia más consistente hacia el óptimo global.
+
+::: panel-tabset
 ### Función de Rosenbrock
 
 $$f(\mathbf{x}) = \sum_{i=1}^{d-1} \left[ 100(x_{i+1} - x_i^2)^2 + (x_i - 1)^2 \right]$$
@@ -685,6 +773,181 @@ $$ f(x_1, x_2) = \left(4 - 2.1x_1^2 + \frac{x_1^4}{3}\right)x_1^2 + x_1x_2 + \le
 
 ## Optimización diferencial
 
+**Funcionamiento Básico**
+
+La Evolución Diferencial (ED) es un algoritmo de optimización poblacional inspirado en los procesos evolutivos naturales. Al igual que otros algoritmos de esta categoría, la ED mantiene una población de soluciones candidatas, las cuales se recombinan y mutan para producir nuevos individuos los cuales serán elegidos de acuerdo al valor de su función de desempeño. Lo que caracteriza a la ED es el uso de vectores de prueba, los cuales compiten con los individuos de la población actual a fin de sobrevivir. [@price1995differential]
+
+**Pasos clave:**
+
+-   **Inicialización de la población:**
+
+    -   Se genera aleatoriamente una población inicial de individuos (soluciones potenciales).
+
+    -   Cada individuo es un vector que representa un punto en el espacio de búsqueda.
+
+        ``` python
+        def initialize_population(self):
+            """
+            Inicializa la población de manera aleatoria dentro de los límites especificados
+
+            Returns:
+            - Matriz numpy con población inicial
+            """
+            # Crea una matriz de ceros con el tamaño de la población
+            population = np.zeros((self.population_size, self.dimension))
+
+            # Genera valores aleatorios para cada dimensión
+            for i in range(self.dimension):
+                population[:, i] = np.random.uniform(
+                    self.bounds[i][0],  # Límite inferior
+                    self.bounds[i][1],  # Límite superior
+                    size=self.population_size  # Número de individuos
+                )
+            return population
+        ```
+
+-   **Evaluación de la población:**
+
+    -   Se evalúa el valor de la función objetivo para cada individuo de la población
+
+-   **Generación de nuevos individuos:**
+
+    -   **Mutación:** Se crea un vector mutante sumando a un individuo objetivo una diferencia escalada entre otros dos individuos de la población.
+
+        ``` python
+        def mutation(self, population):
+            """
+            Aplica la estrategia de mutación DE/rand/1
+
+            Parameters:
+            - population: Población actual
+
+            Returns:
+            - Población mutada
+            """
+            # Crea una matriz para almacenar la población mutada
+            mutation_pop = np.zeros_like(population)
+
+            for i in range(self.population_size):
+                # Selecciona tres individuos aleatorios diferentes
+                candidates = list(range(self.population_size))
+                candidates.remove(i)
+                r1, r2, r3 = np.random.choice(candidates, 3, replace=False)
+
+                # Genera un nuevo vector mediante mutación
+                mutation_pop[i] = population[r1] + self.F * (population[r2] - 
+                                                               population[r3])
+
+                # Asegura que los valores estén dentro de los límites
+                for j in range(self.dimension):
+                    mutation_pop[i, j] = np.clip(
+                        mutation_pop[i, j],
+                        self.bounds[j][0],
+                        self.bounds[j][1]
+                    )
+
+            return mutation_pop
+        ```
+
+    -   **Cruce:** Se crea un vector de prueba combinando el vector mutante y el individuo objetivo mediante un operador de cruce.
+
+        ``` python
+        def crossover(self, population, mutation_pop):
+            """
+            Aplica el cruce binomial (crossover)
+
+            Parameters:
+            - population: Población actual
+            - mutation_pop: Población mutada
+
+            Returns:
+            - Población de prueba tras el cruce
+            """
+            # Crea una matriz para almacenar la población de prueba
+            trial_pop = np.zeros_like(population)
+        	
+            for i in range(self.population_size):
+                # Genera puntos de cruce basados en CR
+                cross_points = np.random.rand(self.dimension) <= self.CR
+                # Asegura al menos un punto de cruce
+                cross_points[np.random.randint(0, self.dimension)] = True
+
+                # Genera vector de prueba
+                trial_pop[i] = np.where(cross_points, mutation_pop[i], population[i])
+        	
+            return trial_pop
+        ```
+
+-   **Selección:** Se compara el valor de la función objetivo del vector de prueba con el del individuo objetivo. El mejor de los dos se selecciona para la siguiente generación.
+
+    ``` python
+    def selection(self, population, trial_pop):
+        """
+        Selección de los mejores individuos
+
+        Parameters:
+        - population: Población actual
+        - trial_pop: Población de prueba
+
+        Returns:
+        - Nueva población y sus valores de aptitud
+        """
+        # Calcula la aptitud de la población actual y de prueba
+        pop_fitness = np.array([self.func(ind) for ind in population])
+        trial_fitness = np.array([self.func(ind) for ind in trial_pop])
+
+        # Identifica qué individuos de prueba son mejores
+        better_indices = trial_fitness < pop_fitness
+        population[better_indices] = trial_pop[better_indices]
+
+        return population, np.minimum(pop_fitness, trial_fitness)
+    ```
+
+-   **Criterio de parada**:
+
+    -   Se repiten los pasos 3 y 4 hasta que se cumpla un criterio de parada (número máximo de generaciones, mejora mínima en la función objetivo, etc.)
+
+        [@martinez2019evolucion]
+
+::: panel-tabset
+### Función de Rosenbrock
+
+$$f(\mathbf{x}) = \sum_{i=1}^{d-1} \left[ 100(x_{i+1} - x_i^2)^2 + (x_i - 1)^2 \right]$$
+
+![](Rosenbrock_diferential_evolution_animation.gif)
+
+### Función de Rastrigin
+
+$$f(\mathbf{x}) = 10d + \sum_{i=1}^{d} \left[ x_i^2 - 10 \cos(2\pi x_i) \right]$$
+
+![](Rastrigin_diferential_evolution_animation.gif)
+
+### Función de Schwefel
+
+$$ f(\mathbf{x}) = 418.9829d - \sum_{i=1}^{d} x_i \sin(\sqrt{|x_i|}) $$
+
+![](Schwefel_diferential_evolution_animation.gif)
+
+### Función de Griewank
+
+$$ f(\mathbf{x}) = 1 + \frac{1}{4000} \sum_{i=1}^{d} x_i^2 - \prod_{i=1}^{d} \cos\left(\frac{x_i}{\sqrt{i}}\right) $$
+
+![](Griewank_diferential_evolution_animation.gif)
+
+### Función Goldstein-Price
+
+$$ \begin{align} f(x_1, x_2) = & \left[1 + (x_1 + x_2 + 1)^2 (19 - 14x_1 + 3x_1^2 - 14x_2 + 6x_1x_2 + 3x_2^2)\right] \\          & \left[30 + (2x_1 - 3x_2)^2 (18 - 32x_1 + 12x_1^2 + 48x_2 - 36x_1x_2 + 27x_2^2)\right] \end{align} $$
+
+![](Goldstein_Price_diferential_evolution_animation.gif)
+
+### Función de las seis jorobas de camello
+
+$$ f(x_1, x_2) = \left(4 - 2.1x_1^2 + \frac{x_1^4}{3}\right)x_1^2 + x_1x_2 + \left(-4 + 4x_2^2\right)x_2^2 $$
+
+![](Camel_Six_Humps_diferential_evolution_animation.gif)
+:::
+
+## 
 
 # Resultados
 
